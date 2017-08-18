@@ -11,3 +11,6 @@ select count(*) Count, substr(Application, 1, 36) Application, substr(AlertKey, 
 
 #  Check for the most recent event for each probe / tool:
 select substr(Manager, 1, 40) Manager, substr(to_char(max(LastOccurrence), 'YYYY-MM-DD HH24:MI:SS'), 1, 22) Last from reporter_status group by Manager order by Last desc
+
+# Find the strings used as "Application"
+select Count(*), Application from reporter_status where Class > 0 group by Application
