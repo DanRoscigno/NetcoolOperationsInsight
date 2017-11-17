@@ -68,3 +68,6 @@ EXPORT TO network.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,
 
 # Detail of Workload
 EXPORT TO workload.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days and OpsTeam = 'Workload' order by LastOccurrence DESC
+
+# SWATs for past 7 days
+select count(*) SWATS, application from REPORTER_STATUS where Manager = 'Page Ops Tool' and date(LastOccurrence) > CURRENT_DATE - 8 days group by application
