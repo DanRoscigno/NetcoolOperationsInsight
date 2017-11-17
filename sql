@@ -14,3 +14,39 @@ select substr(Manager, 1, 40) Manager, substr(to_char(max(LastOccurrence), 'YYYY
 
 # Find the strings used as "Application"
 select Count(*), Application from reporter_status where Class > 0 group by Application
+
+select AlertKey, Application, OriginalSeverity, substr(to_char(LastOccurrence), 'YYYY-MM-DD HH24:MI:SS', 1, 22) from REPORTER_STATUS where OriginalSeverity > 3  and Application in ('TWS', 'WA')
+
+select substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3  and Application in ('TWS', 'WA') order by LastOccurrence DESC
+
+substr(to_char(max(LastOccurrence), 'YYYY-MM-DD HH24:MI:SS')
+
+select substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and Application in ('TPC', 'Storage Insights Devops', 'Storage', 'StorageAnalytics') order by LastOccurrence DESC
+
+EXPORT TO result.csv OF DEL MODIFIED BY NOCHARDEL select substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and Application in ('TPC', 'Storage Insights Devops', 'Storage', 'StorageAnalytics') order by LastOccurrence DESC
+
+EXPORT TO result.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and Application in ('TPC', 'Storage', 'StorageAnalytics') order by LastOccurrence DESC
+
+EXPORT TO result.csv OF DEL MODIFIED BY NOCHARDEL SELECT col1, col2, coln FROM testtable;
+
+select distinct substr(Application,1,52) Application from REPORTER_STATUS ORDER BY Application ASC
+
+select Application, AlertKey, OpsTeam, Service from REPORTER_STATUS where Service > ''
+
+select distinct substr(Application,1,64) from REPORTER_STATUS
+
+
+Workload:
+select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporter_status where OriginalSeverity > 3 and Application in ('WA', 'TWS')
+
+Storage:
+select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporter_status where OriginalSeverity > 3 and Application in ('TPC', 'StorageAnalytics')
+
+Control Desk:
+select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporter_status where OriginalSeverity > 3 and Application in ('SCCD-JLL-TUNNEL2 - MONITORED', 'SCCD-JLL-TUNNEL1 - MONITORED', 'SCCD', 'FULLSAIL -MONITORED', 'JL LDAP to AD - MONITORED', 'AeroMexico -- AeroMex SCCD MONITORED', 'Bendigo - MONITORED', 'Bendigo / SCCD - MONITORED')
+
+APM:
+select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporter_status where OriginalSeverity > 3 and Application in ('APM', 'FEDERAL_APM')
+
+Predict:
+select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporter_status where OriginalSeverity > 3 and Application in ('PI', 'PredictivInsight')
