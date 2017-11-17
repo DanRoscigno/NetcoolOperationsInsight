@@ -50,3 +50,8 @@ select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporte
 
 Predict:
 select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporter_status where OriginalSeverity > 3 and Application in ('PI', 'PredictivInsight')
+
+# Use OpsTeam instead of a bunch of application names
+select OpsTeam from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days
+
+EXPORT TO storage.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and OpsTeam = 'Storage' order by LastOccurrence DESC
