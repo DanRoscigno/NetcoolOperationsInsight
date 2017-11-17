@@ -51,7 +51,20 @@ select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporte
 Predict:
 select min(lastoccurrence) Start, max(LastOccurrence) End, count(*) from reporter_status where OriginalSeverity > 3 and Application in ('PI', 'PredictivInsight')
 
-# Use OpsTeam instead of a bunch of application names
-select count(*), OpsTeam from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days and OpsTeam > '' group by OpsTeam
+# Overall stats for past 7 days
+select count(*) Events, OpsTeam from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days and OpsTeam > '' group by OpsTeam
 
+# Detail for Storage
 EXPORT TO storage.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days and OpsTeam = 'Storage' order by LastOccurrence DESC
+
+# Detail for APM
+EXPORT TO apm.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days and OpsTeam = 'APM' order by LastOccurrence DESC
+
+# Detail of ICD
+EXPORT TO icd.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days and OpsTeam = 'ICD' order by LastOccurrence DESC
+
+# Detail of Network
+EXPORT TO network.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days and OpsTeam = 'Network' order by LastOccurrence DESC
+
+# Detail of Workload
+EXPORT TO workload.csv OF DEL MODIFIED BY NOCHARDEL select Node, substr(AlertKey,1,32) AlertKey, substr(Application,1,32) Application, OriginalSeverity, substr(LastOccurrence, 1, 16) LastOccurrence from REPORTER_STATUS where OriginalSeverity > 3 and date(LastOccurrence) > CURRENT_DATE - 8 days and OpsTeam = 'Workload' order by LastOccurrence DESC
